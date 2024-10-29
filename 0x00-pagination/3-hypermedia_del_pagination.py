@@ -5,7 +5,7 @@ Deletion-resilient hypermedia pagination
 
 import csv
 import math
-from typing import List
+from typing import Dict, List
 
 
 class Server:
@@ -14,6 +14,7 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initializing a new Server instance"""
         self.__dataset = None
         self.__indexed_dataset = None
 
@@ -40,27 +41,32 @@ class Server:
             return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        """Retrieves the info about a page from a given index and with
+        """
+        Retrieves the info about a page from a given index and with
         a specific size
         """
         data = self.indexed_dataset()
-        assert index is not None and index >= 0 and index <= max(data.keys())
-        page_data = []
-        count = 0
-        next_idx = None
-        start = index if index else 0
-        for key, val in data.items():
-            if key >= start and count < page_size:
-                page_data.append(val)
-                count += 1
-                continue
-            if count == page_size:
-                next_idx = key
-                break
+        dic_list = {}  # collect all index data in a dictionary
+        index = index if index else 0
+
+        # validate index
+        assert isinstance(index, int)
+        assert index is not None and 0 <= index <= len(self.dataset())
+        assert isinstance(page_size, int) and page_size > 0
+
+        count = index
+        while (len(dic_list) < page_size and count < len(self.dataset())):
+            if count in data:
+                dic_list[count] = data[count]
+            count += 1
+
+        page_data = list(dic_list.values())
+        page_idx = dic_list.keys()
+
         page_info = {
                 'index': index,
-                'next_index': next_idx,
-                'page_size': len(page_data),
                 'data': page_data,
-                }
-        return page_info
+                'page_size': len(page_data),
+                'next_index': max(page_idx) + 1,
+        }
+        return page_infoi

@@ -19,5 +19,5 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     # if page is 3, start at ((page-1) * page_size) and
     # end at (page_size * page)
     start = (page - 1) * page_size
-    end = (page) * page_size
+    end = page * page_size
     return (start, end)

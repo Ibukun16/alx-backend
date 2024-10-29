@@ -47,27 +47,25 @@ class Server:
         """
         data = self.indexed_dataset()
         page_data = []  # collect all index data in a dictionary
-        count = 0
+        tot_items = len(data)
         next_index = None
-        start = index if index else 0
+        cur_idx = index if index else 0
 
         # validate index
         assert isinstance(index, int)
-        assert index is not None and 0 <= index <= max(data.keys())
+        assert index is not None and 0 <= index <= tot_items
         assert isinstance(page_size, int) and page_size > 0
 
-        for count, val in data.items():
-            if count >= start and count < page_size:
-                page_data.append(val)
-                count += 1
-                continue
-            if count == page_size:
-                next_index = count
-                break
+        while len(page_data) < page_size and cur_idx < tot_items:
+            if cur_idx in data:
+                page_data.append(data[cur_idx])
+            cur_idx += 1
+
+        next_idx = cur_idx if cur_idx < tot_items else None
         page_info = {
                 'index': index,
                 'data': page_data,
                 'page_size': len(page_data),
-                'next_index': next_index,
+                'next_index': next_index
         }
         return page_info

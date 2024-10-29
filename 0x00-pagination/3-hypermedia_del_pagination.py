@@ -69,4 +69,4 @@ class Server:
                 'page_size': len(page_data),
                 'next_index': max(page_idx) + 1,
         }
-        return page_infoi
+        return page_info

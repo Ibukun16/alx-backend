@@ -28,17 +28,17 @@ class FIFOCache(BaseCaching):
     def __init__(self):
         """Initializing the cache"""
         super().__init__()
-        self.cahe_data = OrderedDict()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
         """Add an item in the cache dictionary"""
-        if key is None or item None:
+        if key is None or item is None:
             return
         self.cache_data[key] = item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            first_key, _ = self.cahe_data.popitems(False)
+            first_key, _ = self.cache_data.popitem(False)
             print("DISCARD:", first_key)
 
     def get(self, key):
-        """Retrieves the items store in the dictionary by the key"""
+        """Retrieves the items store in the dictionary by their key"""
         return self.cache_data.get(key, None)

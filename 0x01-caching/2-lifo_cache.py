@@ -18,8 +18,7 @@ def get(self, key):
 Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
-from base_caching import BaseCaching
-from collections import OrderedDict
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache(BaseCaching):
@@ -30,20 +29,20 @@ class LIFOCache(BaseCaching):
     def __init__(self):
         """Initializes the LIFO cache"""
         super().__init__()
-        self.cache_data = OrderedDict()
+        self.stack = []
 
     def put(self, key, item):
-        """Add items to the cache"""
-        if key is None or item is None:
-            return
-        if key not in self.cache_data.keys():
-            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-                last_key, last_value = self.cache_data.popitem(True)
-                print("DISCARD:", last_key)
-        self.cache_data[key] = item
-
+        """Add item into the cache dictionary for storing and retrieval"""
+        if key and item:
+            if self.cache_data.get(key):
+                self.stack.remove(key)
+            while len(self.stack) >= self.MAX_ITEMS:
+                delete = self.stack.pop()
+                self.cache_data.pop(delete)
+                print('DISCARD: {}'.format(delete))
+            self.stack.append(key)
+            self.cache_data[key] = item
+        
         def get(self, key):
             """Retrieve items from the cache dictionary by their key"""
-            if key is None or key not in self.cache_data.keys():
-                return None
-            return self.cache_data.get(key)
+            return self.cache_data.get(key, None)

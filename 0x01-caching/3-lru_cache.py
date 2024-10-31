@@ -18,7 +18,6 @@ def get(self, key):
 Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
-from collections import OrderedDict
 from base_caching import BaseCaching
 
 
@@ -31,23 +30,26 @@ class LRUCache(BaseCaching):
     def __init__(self):
         """Initializing the cache algorithm"""
         super().__init__()
-        self.cache_data = OrderedDict()
+        self.usedKeys = []
 
     def put(self, key, item):
         """Adding item to the cache"""
         if key is None or item is None:
             return
-        if key not in self.cache_data:
-            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-                lru_key, _ = self.cache_data.popitem(True)
-                print("DISCARD:", lru_key)
+        if key and item:
             self.cache_data[key] = item
-            self.cache_data.move_to_end(key, last=False)
+        if key not in self.usedKeys:
+            self.usedKeys.append(key)
         else:
-            self.cache_data[key] = item
+            self.usedKeys.append(
+                    self.usedKeys.pop(self.usedKeys.index(key)))
+        if len(self.usedKeys) > BaseCaching.MAX_ITEMS:
+            lru_key = self.usedKeys.pop(0)
+            del self.cache_data[lru_key]
+            print("DISCARD:", lru_key)
 
     def get(self, key):
         """Retrieves items from the cache dictionary by their key"""
-        if key is not None and key is self.cache_data:
-            self.cache_data.move_to_end(key, last=False)
+        if key is not None and key in self.cache_data.keys():
+            self.usedKeys.append(self.usedKeys.pop(self.usedKeys.index(key)))
         return self.cache_data.get(key, None)

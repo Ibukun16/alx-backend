@@ -7,9 +7,8 @@ Must use self.cache_data - dictionary from the parent class
 BaseCaching
 Can overload def __init__(self): but don’t forget to call the
 parent init: super().__init__()
-def put(self, key, item):
-Must assign to the dictionary self.cache_data the item value for
-the key key.
+def put(self, key, item): Must assign to the dictionary
+self.cache_data the item value for the key key.
 If key or item is None, this method should not do anything.
 If the number of items in self.cache_data is higher that
 BaseCaching.MAX_ITEMS:
@@ -22,7 +21,6 @@ Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data,
 return None.
 """
-from collections import OrderedDict
 from base_caching import BaseCaching
 
 
@@ -34,58 +32,42 @@ class LFUCache(BaseCaching):
     def __init__(self):
         """Initializes the cache"""
         super().__init__()
-        self.cache_data = OrderedDict()
-        self.keys_freq = []
-
-    def __reorder_items(self, mru_key):
-        """
-        Reorders the items n the cache based on the most recently
-        used item in the cache dictionary
-        """
-        highest = []
-        mru_freq = 0
-        mru_position = 0
-        ins_pos = 0
-        for l, k in enumerate(self.keys_freq):
-            if k[0] == mru_key:
-                mru_freq = k[1] + 1
-                mru_pos = l
-                break
-            elif len(highest) == 0:
-                highest.append(l)
-            elif k[1] < self.keys_freq[highest[-1]][1]:
-                highest.append(l)
-        highest.reverse()
-        for p in highest:
-            if self.keys_freq[p][1] > mru_freq:
-                break
-            ins_pos = p
-        self.keys_freq.pop(mru_position)
-        self.keys_freq.insert(ins_pos, [mru_key, mru_freq])
+        self.queue = []
+        self.lfu_keys = {}
 
     def put(self, key, item):
         """Add items to the cache dictionary"""
         if key is None or item is None:
             return
-        if key not in self.cache_data:
-            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-                lfu_key, _ = self.keys_freq[-1]
-                self.cache_data.pop(lfu_key)
-                self.keys_freq.pop()
-                print("DISCARD:", lfu_key)
+        if key and item:
+            if not self.cache_data.get(key):
+                if len(self.queue) + 1 > BaseCaching.MAX_ITEMS:
+                    delete = self.queue.pop(0)
+                    self.lfu_keys.pop(delete)
+                    self.cache_data.pop(delete)
+                    print("DISCARD:", delete)
+
+            if self.cache_data.get(key):
+                self.queue.remove(key)
+                self.lfu_keys[key] += 1
+            else:
+                self.lfu_keys[key] = 0
+
+            indx = 0
+            while (indx < len(self.queue)
+                    and not self.lfu_keys[self.queue[indx]]):
+                indx += 1
+            self.queue.insert(indx, key)
             self.cache_data[key] = item
-            ins_index = len(self.keys_freq)
-            for i, k in enumerate(self.keys_freq):
-                if k[1] == 0:
-                    ins_index = i
-                    break
-            self.keys_freq.insert(ins_index, [key, 0])
-        else:
-            self.cache_data[key] = item
-            self.__reorder_items(key)
 
     def get(self, key):
         """Retrieves items from the cache dictionary by their key."""
-        if key is not None and key in self.cache_data:
-            self.__reorder_items(key)
+        if key is not None and self.cache_data.get(key):
+            self.lfu_keys[key] += 1
+            if self.queue.index(key) + 1 != len(self.queue):
+                while(self.queue.index(key) + 1 < len(self.queue) and
+                        self.lfu_keys[key] >=
+                        self.lfu_keys[self.queue[self.queue.index(key) + 1]]):
+                    self.queue.insert(self.queue.index(key) + 1,
+                                      self.queue.pop(self.queue.index(key)))
         return self.cache_data.get(key, None)

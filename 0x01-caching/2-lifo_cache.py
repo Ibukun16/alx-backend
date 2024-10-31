@@ -18,8 +18,8 @@ def get(self, key):
 Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
-BaseCaching = __import__('base_caching').BaseCaching
 from collections import OrderedDict
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache(BaseCaching):
@@ -44,8 +44,7 @@ class LIFOCache(BaseCaching):
                 print("DISCARD: {}". format(last_key))
 
             self.cache_data[key] = item
-    
-    
+
     def get(self, key):
-            """Retrieve items from the cache dictionary by their key"""
-            return self.cache_data.get(key, None)
+        """Retrieve items from the cache dictionary by their key"""
+        return self.cache_data.get(key, None)

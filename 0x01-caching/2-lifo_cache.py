@@ -18,8 +18,7 @@ def get(self, key):
 Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
-from collections import OrderedDict
-BaseCaching = __import__('base_caching').BaseCaching
+from base_caching import BaseCaching
 
 
 class LIFOCache(BaseCaching):
@@ -30,7 +29,6 @@ class LIFOCache(BaseCaching):
     def __init__(self):
         """Initializes the LIFO cache"""
         super().__init__()
-        self.cache_data = OrderedDict
 
     def put(self, key, item):
         """Add item into the cache dictionary for storing and retrieval"""

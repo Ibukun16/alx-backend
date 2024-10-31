@@ -25,7 +25,7 @@ from base_caching import BaseCaching
 class LRUCache(BaseCaching):
     """
     A base class that inherits from BaseCaching that
-    allows for storing and retrieval of data items from 
+    allows for storing and retrieval of data items from
     a dictionary with Least Recently Used cache algorithm
     """
     def __init__(self):

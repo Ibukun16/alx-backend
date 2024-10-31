@@ -21,6 +21,7 @@ If key is None or if the key doesn’t exist in self.cache_data, return None.
 from base_caching import BaseCaching
 from collections import OrderedDict
 
+
 class LIFOCache(BaseCaching):
     """
     A base class that inherits from BaseCaching system that implement
@@ -45,4 +46,3 @@ class LIFOCache(BaseCaching):
         def get(sel, key):
             """Retrieve itesm from the cache by their key"""
             return self.cache_data.get(key, None)
-

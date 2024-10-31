@@ -42,7 +42,7 @@ class LIFOCache(BaseCaching):
                 print('DISCARD: {}'.format(delete))
             self.stack.append(key)
             self.cache_data[key] = item
-        
+
         def get(self, key):
             """Retrieve items from the cache dictionary by their key"""
             return self.cache_data.get(key, None)

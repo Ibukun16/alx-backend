@@ -46,28 +46,27 @@ class Server:
         a specific size
         """
         data = self.indexed_dataset()
-        page_list = {}  # collect all index data in a dictionary
-        tot_items = len(self.dataset())
-        next_index = None
+        page_data = []  # collect all index data in a dictionary
+        tot_items = len(data)
+        next_index = index + page_size
         cur_idx = index if index else 0
 
         # validate index
         assert isinstance(index, int)
-        assert index is not None and 0 <= index <= tot_items
+        assert cur_idx is not None and 0 <= cur_idx <= tot_items
         assert isinstance(page_size, int) and page_size > 0
 
-        while (len(page_list) < page_size and cur_idx < len(self.dataset())):
-            if cur_idx in data:
-                page_list[cur_idx] = data[cur_idx]
-            cur_idx += 1
-
-        page_data = list(page_list.values())
-        page_idx = page_list.keys()
-        next_index = max(page_idx) + 1
+        for val in range(cur_idx, next_index):
+            while (len(page_data) < page_size and cur_idx < tot_items):
+                if data.get(val):
+                    page_data.append(data[val])
+                else:
+                    val += 1
+                    next_index += 1
         page_info = {
                 'index': index,
                 'data': page_data,
-                'page_size': len(page),
+                'page_size': page_size,
                 'next_index': next_index
         }
         return page_info

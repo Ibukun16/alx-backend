@@ -1,15 +1,15 @@
-# French translations for i18n.
-# Copyright (C) 2024 Ibukun Agunbiade
-# This file is distributed under the same license as the i18n project.
-# Ibukun Agunbiade <ib.agunbiade18@gmail.com>, 2024.
+# French translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: ib.agunbiade18@gmail.com\n"
-"POT-Creation-Date: 2024-11-06 11:14+0000\n"
-"PO-Revision-Date: 2024-11-06 11:33+0000\n"
-"Last-Translator: Ibukun Agunbiade <ib.agunbiade18@gmail.com>\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-06 11:42+0000\n"
+"PO-Revision-Date: 2024-11-06 11:43+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -34,4 +34,3 @@ msgstr "Vous n'êtes pas connecté."
 
 msgid "current_time_is"
 msgstr "Nous sommes le %(current_time)s."
-

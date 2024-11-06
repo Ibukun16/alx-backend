@@ -30,7 +30,7 @@ def get_locale() -> str:
 @app.route('/')
 def get_index() -> str:
     """Use render to get index as home page
-    
+
     Return:
             _type_: _description_
     """

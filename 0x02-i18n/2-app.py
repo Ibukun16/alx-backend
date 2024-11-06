@@ -20,7 +20,7 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale() -> str:
     """Get the locale from a web page
-    
+
     Return:
             _type_: _description_
     """

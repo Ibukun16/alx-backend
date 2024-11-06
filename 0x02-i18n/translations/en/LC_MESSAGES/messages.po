@@ -1,15 +1,16 @@
-# English translations for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# English translations for i18n ROJECT.
+# Copyright (C) 2024 SUPERIOR SOLUTIONS-INC
+# This file is distributed under the same license as the ALX-SE i18n
+# project.
+# IBUKUN OLANIYI AGUNBIADE <ib.agunbiade18@gmail.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: ib.agunbiade18@gmail.com\n"
 "POT-Creation-Date: 2024-11-06 11:42+0000\n"
-"PO-Revision-Date: 2024-11-06 11:43+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2024-11-06 12:02+0000\n"
+"Last-Translator: IBUKUN OLANIYI AGUNBIADE <ib.agunbiade18@gmail.com>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -18,19 +19,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: templates/3-index.html:7
 msgid "home_title"
 msgstr "Welcome to Holberton"
 
-#: templates/3-index.html:10
 msgid "home_header"
 msgstr "Hello world!"
 
-msgid "logged_in_as"
-msgstr "You are logged in as %(username)s."
-
-msgid "not_logged_in"
-msgstr "You are not logged in."
-
-msgid "current_time_is"
-msgstr "The current time is %(current_time)s."

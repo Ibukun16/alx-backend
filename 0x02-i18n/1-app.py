@@ -18,8 +18,8 @@ babel = Babel(app)
 
 
 @app.route('/')
-def index():
-    """Use render to return 1-index"""
+def get_index() -> str:
+    """Use render to get index as home page"""
     return render_template("1-index.html")
 
 

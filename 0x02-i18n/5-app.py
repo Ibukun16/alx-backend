@@ -7,7 +7,7 @@ from typing import Union, Dict
 from flask import Flask, render_template, request, g
 
 
-class Config:
+class Config(object):
     """Flask babel configuration
 
     Return:
@@ -34,12 +34,13 @@ users = {
 
 
 def get_user() -> Union[Dict, None]:
-    """Get a user based on the user id
+    """Get a user based on the user id and return a dictionary of the
+    user details or None if the ID cannot be found
 
     Return:
-            _type_: _description_(the user id)
+            _type_: _description_(the user id or None)
     """
-    login_id = request.args.get('logn_as')
+    login_id = request.args.get('login_as')
     if login_id:
         return users.get(int(login_id))
     return None
@@ -47,8 +48,8 @@ def get_user() -> Union[Dict, None]:
 
 @app.before_request
 def before_request() -> None:
-    """Perform some routine tasks before
-    the resolution of each request
+    """
+    Perform some routine tasks before the resolution of each request
     """
     user = get_user()
     g.user = user
@@ -70,7 +71,7 @@ def get_locale() -> str:
 
 @app.route('/')
 def get_index() -> str:
-    """Use index to retrive index as homepage
+    """Use index to retrieve index as homepage
 
     Return:
             _type_: _description - index

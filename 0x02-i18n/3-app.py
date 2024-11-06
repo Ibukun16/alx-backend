@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Create a basic Flash app"""
+"""Create a basic Flask app"""
 from flask_babel import Babel
 from flask import Flask, render_template, request
 
 
 class Config(object):
     """Flask Babel configuration
-    
+
     Returns:
             _type_: _description_
     """
@@ -33,8 +33,8 @@ def get_locale() -> str:
 
 @app.route('/')
 def get_index() -> str:
-    """Use render template to get the index page
-    
+    """Use render template to get the index as home page
+
     Return:
             _type_: _description_
     """
@@ -42,5 +42,4 @@ def get_index() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
-
+    app.run(host="0.0.0.0", port="5000", debug=True)

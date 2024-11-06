@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 
 class Config(object):
     """Flask Babel configuration
-    
+
     Returns:
             _type_: _description_
     """
@@ -35,6 +35,7 @@ def get_locale() -> str:
         ))
     if 'locale' in query_table:
         if query_table['locale'] in app.config["LANGUAGES"]:
+            print(query_table['locale'])
             return query_table['locale']
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
@@ -42,7 +43,7 @@ def get_locale() -> str:
 @app.route('/')
 def get_index() -> str:
     """Use render template to get the index page
-    
+
     Return:
             _type_: _description_
     """
@@ -50,5 +51,4 @@ def get_index() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
-
+    app.run(host="0.0.0.0", port=5000, debug=True)

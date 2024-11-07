@@ -4,6 +4,7 @@ creating a user login system
 """
 from flask_babel import Babel
 from typing import Union, Dict
+from os import getenv
 from flask import Flask, render_template, request, g
 
 
@@ -15,12 +16,12 @@ class Config(object):
     """
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
-    BABEL_DEFAULT_TIMEZONE = "UTC"
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
 # configure the flask app
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object('5-app.Config')
 app.url_map.strict_slashes = False
 babel = Babel(app)
 
@@ -40,9 +41,9 @@ def get_user() -> Union[Dict, None]:
     Return:
             _type_: _description_(the user id or None)
     """
-    login_id = request.args.get('login_as')
-    if login_id:
-        return users.get(int(login_id))
+    user_id = int(request.args.get('login_as'))
+    if user_id in users:
+        return users.get(user_id)
     return None
 
 
@@ -51,8 +52,7 @@ def before_request() -> None:
     """
     Perform some routine tasks before the resolution of each request
     """
-    user = get_user()
-    g.user = user
+    g.user = get_user()
 
 
 @babel.localeselector
@@ -63,7 +63,7 @@ def get_locale() -> str:
             _type_: _description - Webpage
     """
     locale = request.args.get('locale', '')
-    if locale in app.config['LANGUAGES']:
+    if locale in app.config["LANGUAGES"]:
         print(locale)
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
@@ -80,4 +80,6 @@ def get_index() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    host = getenv("API_HOST", "0.0.0.0")
+    port = getenv("API_PORT", "5000")
+    app.run(host=host, port=port, debug=True)

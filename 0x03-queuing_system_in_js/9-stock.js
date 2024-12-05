@@ -32,7 +32,6 @@ const listProducts = [
 
 const getItemById = (id) => {
   const item = listProducts.find((obj) => obj.itemId === id);
-
   if (item) {
     return Object.fromEntries(Object.entries(item));
   }
@@ -96,7 +95,7 @@ app.get('/reserve_product/:itemId', (req, res) => {
         res.json({ status: 'Not enough stock available', itemId });
         return;
       }
-      getCurrentReservedStockById(itemId, reservedStock + 1).then(() => {
+      reserveStockById(itemId, reservedStock + 1).then(() => {
         res.json({ status: 'Reservation confirmed', itemId });
       });
     });

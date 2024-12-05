@@ -3,8 +3,9 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { createQueue } from 'kue';
 import createPushNotificationsJobs from './8-jobs.js';
+import { describe, it, before, after, afterEach } from 'mocha';
 
-describe('createPushNotificationsJobs', () => {
+describe('Test createPushNotificationsJobs function', () => {
   const spyMonitor = sinon.spy(console);
   const QUEUE = createQueue({ name: 'push_notification_code_test' });
 
@@ -21,21 +22,21 @@ describe('createPushNotificationsJobs', () => {
     spyMonitor.log.resetHistory();
   });
 
-  it('displays an error message if jobs is not an array', () => {
+  it('display an error message if jobs is not an array', () => {
     expect(
       createPushNotificationsJobs.bind(createPushNotificationsJobs, {}, QUEUE),
-    ).to.throw('Jobs is not an array');
+    ).to.throw(Error, 'Jobs is not an array');
   });
 
-  it('add jobs to the queue with the correct type', (done) => {
+  it('Test if jobs are created and add jobs to the queue with the correct type', (done) => {
     expect(QUEUE.testMode.jobs.length).to.equal(0);
     const jobDetails = [
       {
-        phoneNumber: '+2348068617588',
+        phoneNumber: '4153518780',
         message: 'Use the code 1617 to verify your account',
       },
       {
-        phoneNumber: '+2347068278800',
+        phoneNumber: '4153518781',
         message: 'Use the code 1956 to verify your account',
       },
     ];
